@@ -42,8 +42,8 @@
   }
 
   function getLogoutRedirect(base) {
-    // 静态原型：没有真实登录态，Log Out 统一回到平台选择页
-    return (base || "../") + "index.html";
+    // base 为到 pages/ 的路径，index 在项目根，需再向上一级
+    return (base || "../") + "../index.html";
   }
 
   function escapeHtml(s) {
@@ -61,7 +61,6 @@
     var userWrap = document.querySelector(".workspace .app-header .user-info");
     if (!userWrap) return;
 
-    // 让容器可定位 dropdown panel
     userWrap.classList.add("user-dropdown-wrap");
     userWrap.setAttribute("tabindex", "0");
     userWrap.setAttribute("role", "button");
@@ -73,7 +72,8 @@
       panel = document.createElement("div");
       panel.className = "platform-dropdown-panel user-dropdown-panel hidden";
       panel.setAttribute("role", "menu");
-      panel.innerHTML = '<button type="button" class="dropdown-option" data-action="logout" role="menuitem">Log Out</button>';
+      var logoutHref = getLogoutRedirect(getBasePath());
+      panel.innerHTML = '<a class="dropdown-option" data-action="logout" role="menuitem" href="' + escapeAttr(logoutHref) + '">Log Out</a>';
       userWrap.appendChild(panel);
     }
 
@@ -89,12 +89,8 @@
       if (panel.classList.contains("hidden")) open(); else close();
     }
 
-    // 仅点击下拉箭头时触发（兼容没有箭头的场景则点击整块触发）
-    var arrow = userWrap.querySelector(".user-dropdown");
-    var trigger = arrow || userWrap;
-    trigger.style.cursor = "pointer";
-
-    trigger.addEventListener("click", function (e) {
+    // 整个账号+箭头区域可点击（手型由 CSS :hover 控制）
+    userWrap.addEventListener("click", function (e) {
       e.stopPropagation();
       toggle();
     });
@@ -115,13 +111,7 @@
     });
     panel.addEventListener("click", function (e) {
       e.stopPropagation();
-      var btn = e.target && e.target.closest ? e.target.closest("button[data-action]") : null;
-      if (!btn) return;
-      var action = btn.getAttribute("data-action");
-      if (action === "logout") {
-        var base = getBasePath();
-        location.href = getLogoutRedirect(base);
-      }
+      // Log Out 使用 <a href> 跳转，无需额外处理
     });
   }
 

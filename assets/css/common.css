@@ -21,6 +21,12 @@ a {
   text-decoration: none;
 }
 
+/* 仅悬停时手型，移出恢复，与点击/焦点无关 */
+a:hover,
+button:hover {
+  cursor: pointer;
+}
+
 a:hover {
   text-decoration: underline;
 }
@@ -155,33 +161,57 @@ a:hover {
   line-height: 1;
 }
 
+/* 用户区域：整块可点击，扩大热区，与页头同色无 hover/active 背景 */
 .workspace .app-header .user-info {
   display: flex;
   align-items: center;
   gap: 6px;
   font-size: 13px;
   color: rgba(255, 255, 255, 0.85);
-  cursor: default;
   position: relative;
   user-select: none;
+  padding: 8px 12px;
+  margin: -8px -12px -8px 0;
+  border-radius: 0;
+}
+.workspace .app-header .user-info.user-dropdown-wrap:hover {
+  cursor: pointer;
 }
 .workspace .app-header .user-info .user-dropdown {
   font-size: 10px;
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* User dropdown panel (Log Out) – reuse platform dropdown style */
+/* User dropdown panel (Log Out) — 与账号+箭头同宽 */
 .workspace .app-header .user-info .user-dropdown-panel {
   left: auto;
   right: 0;
-  min-width: 160px;
-  max-width: 220px;
+  top: calc(100% + 4px);
+  width: 100%;
+  min-width: 0;
+  max-width: none;
   max-height: none;
   overflow: hidden;
   padding: 4px 0;
+  box-sizing: border-box;
 }
 .workspace .app-header .user-info .user-dropdown-panel .dropdown-option {
+  display: block;
   padding: 10px 14px;
+  text-align: left;
+  text-decoration: none;
+  color: #333;
+  background: transparent;
+  border: none;
+  width: 100%;
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.workspace .app-header .user-info .user-dropdown-panel .dropdown-option:hover {
+  cursor: pointer;
+  background: #f1f5f9;
+  color: #333;
 }
 
 /* Platform dropdown trigger */
@@ -207,8 +237,10 @@ a:hover {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   font-family: inherit;
-  cursor: pointer;
   transition: background 0.15s ease;
+}
+.platform-dropdown-trigger:hover {
+  cursor: pointer;
 }
 
 button.platform-dropdown-trigger {
@@ -278,13 +310,13 @@ button.platform-dropdown-trigger {
   text-decoration: none;
   background: transparent;
   border: none;
-  cursor: pointer;
   transition: background 0.15s ease;
   box-sizing: border-box;
 }
 
 .platform-dropdown-panel .dropdown-option:hover {
   background: #f1f5f9;
+  cursor: pointer;
 }
 
 /* 选中态与侧边栏一致：无背景、#000、字重 500，不与 Group 浅底混淆 */
@@ -325,7 +357,6 @@ button.platform-dropdown-trigger {
 
 .workspace .nav-item {
     padding: 10px 16px;
-    cursor: pointer;
     transition: background-color 0.2s;
     display: flex;
     align-items: center;
@@ -336,6 +367,7 @@ button.platform-dropdown-trigger {
 
 .workspace .nav-item:hover {
     background-color: #f0f0f0;
+    cursor: pointer;
 }
 
 .workspace .nav-item.active {
@@ -351,7 +383,6 @@ button.platform-dropdown-trigger {
 
 .workspace .nav-subitem {
     padding: 8px 16px 8px 36px;
-    cursor: pointer;
     transition: background-color 0.2s;
     font-size: 13px;
     color: #555;
@@ -360,6 +391,7 @@ button.platform-dropdown-trigger {
 .workspace .nav-subitem:hover {
     background-color: #f0f0f0;
     color: #333;
+    cursor: pointer;
 }
 
 .workspace .nav-subitem.active {
