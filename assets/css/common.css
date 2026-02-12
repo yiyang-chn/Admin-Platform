@@ -162,10 +162,26 @@ a:hover {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.85);
   cursor: default;
+  position: relative;
+  user-select: none;
 }
 .workspace .app-header .user-info .user-dropdown {
   font-size: 10px;
   color: rgba(255, 255, 255, 0.6);
+}
+
+/* User dropdown panel (Log Out) – reuse platform dropdown style */
+.workspace .app-header .user-info .user-dropdown-panel {
+  left: auto;
+  right: 0;
+  min-width: 160px;
+  max-width: 220px;
+  max-height: none;
+  overflow: hidden;
+  padding: 4px 0;
+}
+.workspace .app-header .user-info .user-dropdown-panel .dropdown-option {
+  padding: 10px 14px;
 }
 
 /* Platform dropdown trigger */
