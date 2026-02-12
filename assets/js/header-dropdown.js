@@ -141,6 +141,31 @@
     });
 
     initUserDropdown();
+    initSidebarExpandCollapse();
+  }
+
+  /**
+   * 侧栏分组展开/收起（与 Operation Dashboard 一致）：点击 .nav-item.has-children 切换 expanded
+   */
+  function initSidebarExpandCollapse() {
+    var parents = document.querySelectorAll(".workspace .nav-item.has-children");
+    parents.forEach(function (parent) {
+      parent.setAttribute("tabindex", "0");
+      parent.setAttribute("role", "button");
+      parent.setAttribute("aria-expanded", parent.classList.contains("expanded") ? "true" : "false");
+      parent.addEventListener("click", function (e) {
+        e.preventDefault();
+        parent.classList.toggle("expanded");
+        parent.setAttribute("aria-expanded", parent.classList.contains("expanded") ? "true" : "false");
+      });
+      parent.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+          e.preventDefault();
+          parent.classList.toggle("expanded");
+          parent.setAttribute("aria-expanded", parent.classList.contains("expanded") ? "true" : "false");
+        }
+      });
+    });
   }
 
   if (document.readyState === "loading") {
