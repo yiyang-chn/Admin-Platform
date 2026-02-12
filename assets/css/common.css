@@ -1,0 +1,412 @@
+/* Admin Platform – common layout and components (infstones-admin-ui-style) */
+
+/* --- Resets and base --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* --- Selection page (sub-platform picker) — 浅色、按 Group 平铺卡片，仅文字 --- */
+.platform-selection-page {
+  display: block;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 40px 32px 48px;
+}
+
+.platform-selection-page.hidden {
+  display: none;
+}
+
+.platform-selection-page .selection-page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin: 0 0 40px 0;
+  padding: 0;
+}
+
+.platform-selection-page .selection-groups {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.platform-selection-page .selection-group {
+  margin-bottom: 40px;
+}
+
+.platform-selection-page .selection-group:last-child {
+  margin-bottom: 0;
+}
+
+/* Group 标题：大号、粗体 */
+.platform-selection-page .selection-group-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 20px 0;
+  padding: 0;
+}
+
+/* 子平台卡片网格：居中平铺，仅文字 */
+.platform-selection-page .selection-group-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.platform-selection-page .selection-card {
+  display: block;
+  padding: 18px 20px;
+  background-color: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.platform-selection-page .selection-card:hover {
+  background-color: #fafafa;
+  border-color: #e0e0e0;
+  text-decoration: none;
+  color: #333;
+}
+
+.platform-selection-page .selection-card:active {
+  background-color: #f5f5f5;
+}
+
+/* --- Workspace layout (header + sidebar + main) — aligned with Operation Dashboard --- */
+.workspace {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f5f5f5;
+}
+
+.workspace.hidden {
+  display: none;
+}
+
+/* Top header – same as Operation Dashboard #1a1d26, 24px padding, 56px */
+.workspace .app-header {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  padding: 0 24px;
+  background-color: #1a1d26;
+  color: #fff;
+}
+
+.workspace .app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Logo — same as Operation Dashboard */
+.workspace .top-header-logo-wrap {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  text-decoration: none;
+  color: inherit;
+}
+.workspace .top-header-logo {
+  height: 40px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+.workspace .top-header-logo-fallback {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  color: #fff;
+  line-height: 1;
+}
+
+.workspace .app-header .user-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: default;
+}
+.workspace .app-header .user-info .user-dropdown {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Platform dropdown trigger */
+.platform-dropdown {
+  position: relative;
+}
+
+/* Platform name in header — same as OD .top-header-title */
+.workspace .top-header-title,
+.platform-dropdown-trigger {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.platform-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  min-width: 160px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+button.platform-dropdown-trigger {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  appearance: none;
+}
+
+.platform-dropdown-trigger:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.platform-dropdown-trigger .chevron {
+  margin-left: auto;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* Dropdown panel – white background */
+.platform-dropdown-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 260px;
+  max-width: 320px;
+  max-height: 420px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  padding: 4px 0 8px 0;
+}
+
+.platform-dropdown-panel.hidden {
+  display: none;
+}
+
+/* Group 标题：小号、全大写、字间距、浅底，与子项明显区分；组与组之间用分隔线 */
+.platform-dropdown-panel .dropdown-group-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #475569;
+  padding: 10px 14px 6px 18px;
+  margin: 0;
+  line-height: 1.3;
+  background-color: #f8fafc;
+  border-top: 1px solid #e8e8e8;
+}
+
+.platform-dropdown-panel .dropdown-group-title:first-child {
+  border-top: none;
+  padding-top: 8px;
+}
+
+/* 子平台项：缩进体现层级，行高增加可读性 */
+.platform-dropdown-panel .dropdown-option {
+  display: block;
+  width: 100%;
+  padding: 8px 14px 8px 24px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #334155;
+  text-align: left;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  box-sizing: border-box;
+}
+
+.platform-dropdown-panel .dropdown-option:hover {
+  background: #f1f5f9;
+}
+
+/* 选中态与侧边栏一致：无背景、#000、字重 500，不与 Group 浅底混淆 */
+.platform-dropdown-panel .dropdown-option.active {
+  background: transparent;
+  color: #000;
+  font-weight: 500;
+}
+
+/* Body: sidebar + main — same as Operation Dashboard .dashboard-body */
+.workspace-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Sidebar — 原封不动复制自 Operation Dashboard assets/css/common.css */
+.workspace .sidebar {
+    width: 240px;
+    flex: 0 0 240px;
+    background-color: #fafafa;
+    border-right: 1px solid #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.workspace .nav-menu {
+    padding: 24px 0 8px 0;
+    display: flex;
+    flex-direction: column;
+}
+.workspace .nav-menu > * {
+    flex: 0 0 auto;
+    min-width: 0;
+}
+
+.workspace .nav-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #333;
+}
+
+.workspace .nav-item:hover {
+    background-color: #f0f0f0;
+}
+
+.workspace .nav-item.active {
+    background-color: #F5F5F6;
+    color: #000;
+    font-weight: 500;
+}
+
+.workspace .nav-item.has-children {
+    font-weight: 500;
+    color: #333;
+}
+
+.workspace .nav-subitem {
+    padding: 8px 16px 8px 36px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 13px;
+    color: #555;
+}
+
+.workspace .nav-subitem:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.workspace .nav-subitem.active {
+    background-color: #F5F5F6;
+    color: #000;
+    font-weight: 500;
+}
+
+.workspace .nav-submenu {
+    display: flex;
+    flex-direction: column;
+}
+.workspace .nav-item.has-children:not(.expanded) + .nav-submenu {
+    display: none;
+}
+
+/* Sidebar nav links: <a> tags — 与 OD 一致 */
+.workspace a.nav-subitem,
+.workspace a.nav-item {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    box-sizing: border-box;
+}
+.workspace a.nav-subitem {
+    color: #555;
+    white-space: nowrap;
+}
+.workspace a.nav-item {
+    display: flex;
+    color: #333;
+    white-space: nowrap;
+}
+.workspace a.nav-subitem:hover,
+.workspace a.nav-subitem.active,
+.workspace a.nav-item:hover,
+.workspace a.nav-item.active {
+    text-decoration: none;
+}
+
+/* Main content — same as OD .content-area: padding 24px, #f5f5f5 */
+.workspace .main {
+  flex: 1;
+  min-width: 0;
+  padding: 24px;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+}
+
+.workspace .main-placeholder {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  padding: 24px;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Page header — same as OD .page-header */
+.workspace .main-placeholder h2,
+.workspace .page-header {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: #333;
+}
