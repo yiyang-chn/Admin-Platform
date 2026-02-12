@@ -41,6 +41,11 @@
     return html;
   }
 
+  function getLogoutRedirect(base) {
+    // 静态原型：没有真实登录态，Log Out 统一回到平台选择页
+    return (base || "../") + "index.html";
+  }
+
   function escapeHtml(s) {
     if (s == null) return "";
     var div = document.createElement("div");
@@ -50,6 +55,74 @@
   function escapeAttr(s) {
     if (s == null) return "";
     return String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function initUserDropdown() {
+    var userWrap = document.querySelector(".workspace .app-header .user-info");
+    if (!userWrap) return;
+
+    // 让容器可定位 dropdown panel
+    userWrap.classList.add("user-dropdown-wrap");
+    userWrap.setAttribute("tabindex", "0");
+    userWrap.setAttribute("role", "button");
+    userWrap.setAttribute("aria-haspopup", "menu");
+    userWrap.setAttribute("aria-expanded", "false");
+
+    var panel = userWrap.querySelector(".user-dropdown-panel");
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.className = "platform-dropdown-panel user-dropdown-panel hidden";
+      panel.setAttribute("role", "menu");
+      panel.innerHTML = '<button type="button" class="dropdown-option" data-action="logout" role="menuitem">Log Out</button>';
+      userWrap.appendChild(panel);
+    }
+
+    function open() {
+      panel.classList.remove("hidden");
+      userWrap.setAttribute("aria-expanded", "true");
+    }
+    function close() {
+      panel.classList.add("hidden");
+      userWrap.setAttribute("aria-expanded", "false");
+    }
+    function toggle() {
+      if (panel.classList.contains("hidden")) open(); else close();
+    }
+
+    // 仅点击下拉箭头时触发（兼容没有箭头的场景则点击整块触发）
+    var arrow = userWrap.querySelector(".user-dropdown");
+    var trigger = arrow || userWrap;
+    trigger.style.cursor = "pointer";
+
+    trigger.addEventListener("click", function (e) {
+      e.stopPropagation();
+      toggle();
+    });
+
+    userWrap.addEventListener("keydown", function (e) {
+      var key = e.key || e.code;
+      if (key === "Enter" || key === " " || key === "Spacebar") {
+        e.preventDefault();
+        e.stopPropagation();
+        toggle();
+      } else if (key === "Escape" || key === "Esc") {
+        close();
+      }
+    });
+
+    document.addEventListener("click", function () {
+      close();
+    });
+    panel.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var btn = e.target && e.target.closest ? e.target.closest("button[data-action]") : null;
+      if (!btn) return;
+      var action = btn.getAttribute("data-action");
+      if (action === "logout") {
+        var base = getBasePath();
+        location.href = getLogoutRedirect(base);
+      }
+    });
   }
 
   function init() {
@@ -76,6 +149,8 @@
     panel.addEventListener("click", function (e) {
       e.stopPropagation();
     });
+
+    initUserDropdown();
   }
 
   if (document.readyState === "loading") {
